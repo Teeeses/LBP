@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace LBP
 {
@@ -17,25 +18,52 @@ namespace LBP
         public Form1()
         {
             InitializeComponent();
+            this.pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+            this.pictureBoxLBP.SizeMode = PictureBoxSizeMode.Zoom;
             menu();
         }
 
         private void menu()
         {
-            
+            Image img = Properties.Resources.girl_;
+            loadPicture(img);
         }
 
-        private void buttonLoad_Click(object sender, EventArgs e)
+
+        private void loadPicture(Image img)  
         {
+            unsafe
+            {
+                lbp = new LBP(img);
+                pictureBox.Image = lbp.getPicture();
+                pictureBoxLBP.Image = lbp.getChengedPicture();
+                lbp.setUnlock();
+            }
+        }
+
+        private void LoadFotoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Stream stream;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Bitmaps|*.bmp;*.JPG; *.png";
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                lbp = new LBP(Image.FromFile(openFileDialog.FileName));
-                pictureBox.Image = lbp.getPicture();
-                lbp.methodLBP(lbp.getPicture());
-                pictureBoxLBP.Image = lbp.getChengedPicture();
-                //Console.WriteLine(picture.GetPixel(5, 5).
+                try
+                {
+                    if ((stream = openFileDialog.OpenFile()) != null)
+                    {
+                        using (stream)
+                        {
+                            Image img = Image.FromFile(openFileDialog.FileName);
+                            loadPicture(img);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }

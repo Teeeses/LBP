@@ -14,48 +14,57 @@ namespace LBP
         private int[,] arrayPixels;
         private int[,] changedArrayPixels;
 
+        private BufferedBitmap bbPicture;
+        private BufferedBitmap bbChangedPicture;
+
         public LBP(Image img)
         {
             picture = new Bitmap(img);
             changedPicture = new Bitmap(img);
+
+            createBufferedBitmap();
             createArray();
             changedArrayPixels = methodLBP(picture);
             usedMethodForPicture();
         }
 
-
-        private void fillZero(int[,] mass)
+        public void createBufferedBitmap()
         {
-            for (int i = 0; i < picture.Width; i++)
-            {
-                for (int j = 0; j < picture.Height; j++)
-                {
-                    mass[i, j] = 0;
-                }
-            }
+            bbPicture = new BufferedBitmap(picture);
+            bbChangedPicture = new BufferedBitmap(changedPicture);
+        }
+
+        public void setUnlock()
+        {
+            bbPicture.Unlock();
+            bbChangedPicture.Unlock();
         }
 
         private void createArray()
         {
             arrayPixels = new int[picture.Width, picture.Height];
             changedArrayPixels = new int[picture.Width, picture.Height];
-            fillZero(arrayPixels);
-            fillZero(changedArrayPixels);
         }
 
         public int[,] methodLBP(Bitmap bmp)
         {
-            int[,] mass = new int[bmp.Width, bmp.Height];
-            fillZero(mass);
+            /*System.Diagnostics.Stopwatch myStopwatch = new System.Diagnostics.Stopwatch();
+            myStopwatch.Start();*/
 
-            for (int i = 1; i < bmp.Width - 1; i++)
+            int[,] mass = new int[bmp.Width, bmp.Height];
+
+            for (int i = 0; i < bmp.Width; i++)
             {
-                for (int j = 1; j < bmp.Height - 1; j++)
+                for (int j = 0; j < bmp.Height; j++)
                 {
                     mass[i, j] = translationBinaryInDecimal(nearPixel(bmp, i, j));
                 }
             }
 
+            /*myStopwatch.Stop();
+            TimeSpan ts = myStopwatch.Elapsed;
+            Console.WriteLine(ts.Seconds + "секунд " + ts.Milliseconds + " миллисекунд");
+            */
             return mass;
         }
 
@@ -83,12 +92,16 @@ namespace LBP
             {
                 for (int j = y - 1; j <= y + 1; j++)
                 {
-                    if (i != x || j != y)
+                    if(i >= 0 && j >=0 && i <= bmp.Width - 1 && j <= bmp.Height - 1) 
                     {
-                        if (bmp.GetPixel(i , j).R >= bmp.GetPixel(x, y).R)
-                            str = str + "1";
-                        else
-                            str = str + "0";
+                        if (i != x || j != y)
+                        {
+                            var intens = bbPicture.GetPixel(i, j).R * 0.3 + bbPicture.GetPixel(i, j).G * 0.59 + bbPicture.GetPixel(i, j).B * 0.11;
+                            if (intens >= bbPicture.GetPixel(x, y).R)
+                                str = str + "1";
+                            else
+                                str = str + "0";
+                        }
                     }
                 }
             }
@@ -98,12 +111,12 @@ namespace LBP
         //Применяем метод к копии фотографии
         private void usedMethodForPicture()
         {
-            for (int i = 1; i < changedPicture.Width - 1; i++)
+            for (int i = 0; i < changedPicture.Width; i++)
             {
-                for (int j = 1; j < changedPicture.Height - 1; j++)
+                for (int j = 0; j < changedPicture.Height; j++)
                 {
                     int color = changedArrayPixels[i, j];
-                    changedPicture.SetPixel(i, j, Color.FromArgb(color, color, color));
+                    bbChangedPicture.SetPixel(i, j, Color.FromArgb(color, color, color));
                 }
             }
         }
