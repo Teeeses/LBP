@@ -1,0 +1,11 @@
+c:\users\александр\documents\visual studio 2013\Projects\LBP\LBP\bin\Debug\LBP.exe.config
+c:\users\александр\documents\visual studio 2013\Projects\LBP\LBP\bin\Debug\LBP.exe
+c:\users\александр\documents\visual studio 2013\Projects\LBP\LBP\bin\Debug\LBP.pdb
+c:\users\александр\documents\visual studio 2013\Projects\LBP\LBP\obj\Debug\LBP.csprojResolveAssemblyReference.cache
+c:\users\александр\documents\visual studio 2013\Projects\LBP\LBP\obj\Debug\LBP.Form1.resources
+c:\users\александр\documents\visual studio 2013\Projects\LBP\LBP\obj\Debug\LBP.Properties.Resources.resources
+c:\users\александр\documents\visual studio 2013\Projects\LBP\LBP\obj\Debug\LBP.csproj.GenerateResource.Cache
+c:\users\александр\documents\visual studio 2013\Projects\LBP\LBP\obj\Debug\LBP.exe
+c:\users\александр\documents\visual studio 2013\Projects\LBP\LBP\obj\Debug\LBP.pdb
+C:\Users\Александр\Documents\Visual Studio 2013\Projects\LBP\LBP\bin\Debug\ZedGraph.dll
+C:\Users\Александр\Documents\Visual Studio 2013\Projects\LBP\LBP\obj\Debug\LBP.Histogram.resources
